@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# https://codeberg.org/EvanHahn/dotfiles/src/branch/main/home/zsh/.config/zsh/aliases.zsh#L38
 set -e
 set -u
 set -o pipefail
