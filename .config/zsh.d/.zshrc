@@ -1,5 +1,7 @@
 source "$HOME/.config/zsh.d/aliases.zsh"
 
+export EDITOR="code"
+
 eval "$(starship init zsh)"
 
 autoload -U +X bashcompinit && bashcompinit
