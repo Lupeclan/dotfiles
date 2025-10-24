@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# https://codeberg.org/EvanHahn/dotfiles/src/branch/main/home/bin/bin/uppered
+set -e
+set -u
+set -o pipefail
+
+tr '[:lower:]' '[:upper:]'
