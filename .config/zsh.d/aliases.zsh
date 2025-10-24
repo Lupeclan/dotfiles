@@ -1,3 +1,11 @@
+# Path traversing
+alias ..='cd ..'
+alias 2..='cd ../..'
+alias 3..='cd ../../..'
+alias 4..='cd ../../../..'
+alias 5..='cd ../../../../..'
+alias cd..="cd .."
+
 # AWS
 alias aws-l="aws sso login"
 
@@ -11,6 +19,7 @@ compdef g="git"
 
 # Misc
 alias reload="exec $SHELL -l"
+alias cls="clear"
 
 # Terraform
 alias tf="terraform"
