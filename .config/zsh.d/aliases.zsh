@@ -14,6 +14,7 @@ alias g="git"
 alias gpl="git pull"
 alias gdh="git diff HEAD"
 alias gfp="git fetch --prune"
+alias gcbr="git branch --show-current"
 unalias gpf
 compdef g="git"
 
