@@ -1,5 +1,6 @@
 source "$HOME/.config/zsh.d/aliases.zsh"
 
+export SOPS_EDITOR="vim"
 export EDITOR="code"
 
 eval "$(starship init zsh)"
