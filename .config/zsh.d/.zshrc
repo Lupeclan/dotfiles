@@ -13,3 +13,14 @@ export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init - zsh)"
 
+cpyvenv() {
+    if [[ ! -d venv ]]; then
+        echo "Creating virtual environment in $(pwd)/venv"
+        python3 -m venv venv
+    fi
+
+    echo "Activating virtual environment in $(pwd)/venv"
+    source venv/bin/activate
+
+    echo "python3: $(which python3)"
+}
