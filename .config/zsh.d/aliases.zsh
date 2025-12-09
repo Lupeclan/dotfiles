@@ -15,6 +15,7 @@ alias gpl="git pull"
 alias gdh="git diff HEAD"
 alias gfp="git fetch --prune"
 alias gcbr="git branch --show-current"
+alias gbrl="git branch -l"
 alias gcbrcp="git branch --show-current | tr -d '\n' | copy"
 alias gbrda="git branch | grep -v 'main\|master' | xargs git branch -D"
 unalias gpf
