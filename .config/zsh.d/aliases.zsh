@@ -33,6 +33,12 @@ alias tfv="terraform validate"
 alias tfp="terraform plan"
 alias tfa="terraform apply"
 alias tfd="terraform destroy"
+alias tfw="terraform workspace"
+alias tfsl="terraform state list"
+alias tfwl="terraform workspace list"
+alias tfws="terraform workspace select"
+alias tfwn="terraform workspace new"
+alias tfwd="terraform workspace delete"
 
 # Docker
 alias d="docker"
