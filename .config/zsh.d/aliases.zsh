@@ -18,6 +18,7 @@ alias gcbr="git branch --show-current"
 alias gbrl="git branch -l"
 alias gcbrcp="git branch --show-current | tr -d '\n' | copy"
 alias gbrda="git branch | grep -v 'main\|master' | xargs git branch -D"
+alias gfep="git fetch --prune"
 unalias gpf
 compdef g="git"
 
