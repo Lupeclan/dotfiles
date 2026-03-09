@@ -12,6 +12,7 @@ alias aws-l="aws sso login"
 # Git
 alias g="git"
 alias gpl="git pull"
+alias gplr="git pull --rebase"
 alias gdh="git diff HEAD"
 alias gfp="git fetch --prune"
 alias gcbr="git branch --show-current"
