@@ -22,6 +22,7 @@ alias gbrda="git branch | grep -v 'main\|master' | xargs git branch -D"
 alias gfep="git fetch --prune"
 alias gmm="git merge main"
 alias gchm="git checkout main"
+alias gsyn="git pull && git fetch --prune"
 unalias gpf
 compdef g="git"
 
