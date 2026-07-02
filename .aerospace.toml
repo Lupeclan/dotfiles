@@ -156,6 +156,7 @@ ctrl-shift-slash = 'focus --wrap-around dfs-prev'
 # Cycle through workspaces on the current monitor
 ctrl-right = 'list-workspaces --monitor focused --empty no | workspace --wrap-around next'
 ctrl-left = 'list-workspaces --monitor focused --empty no | workspace --wrap-around prev'
+ctrl-comma = 'workspace-back-and-forth'
 
 # Open up a new iTerm window
 alt-enter = '''exec-and-forget osascript -e '
