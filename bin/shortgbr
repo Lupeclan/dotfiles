@@ -11,7 +11,7 @@ selected_story=$(echo "" | fzf \
   --height 40% \
   --layout=reverse \
   --border \
-  --prompt="Search Shortcut Ticket ➔ " \
+  --prompt="🩳 Search Shortcut Ticket ➔ " \
   --preview "short story --quiet {}" \
   --preview-window=right:65%:wrap)
 
