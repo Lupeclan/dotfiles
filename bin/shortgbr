@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -e
+set -u
+set -o pipefail
+
+selected_story=$(echo "" | fzf \
+  --bind "change:reload( short search --owner $SHORTCUT_MENTION_NAME --text {q} --format '%id %t' --quiet )" \
+  --height 40% \
+  --layout=reverse \
+  --border \
+  --prompt="Search Shortcut Ticket ➔ " \
+  --preview "short story --quiet {}" \
+  --preview-window=right:65%:wrap)
+
+if [ -n "$selected_story" ]; then
+  id=$(echo "$selected_story" | awk '{print $1}')
+  title=$(echo "$selected_story" \
+    | awk '{$1=""; print $0}' \
+    | sed -E 's/^[[:space:]]+//; s/[[:space:]]+/-/g; s/[^[:alnum:]-]//g' \
+    | tr '[:upper:]' '[:lower:]')
+
+  rm -f "$HOME/.shortcut_story_id"
+  echo "$id" > "$HOME/.shortcut_story_id"
+
+  branch_name="sc-$id-$title"
+  if git show-ref --verify --quiet "refs/heads/$branch_name"; then
+    git checkout "$branch_name"
+  else
+    git checkout -b "$branch_name"
+    git push
+  fi
+fi

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -e
+set -u
+set -o pipefail
+
+selected_story=$(echo "" | fzf \
+  --disabled \
+  --bind "change:reload( short search --owner $SHORTCUT_MENTION_NAME --text {q} --format '%id %t' --quiet )" \
+  --height 40% \
+  --layout=reverse \
+  --border \
+  --prompt="Search Shortcut Ticket ➔ " \
+  --preview "short story --quiet {}" \
+  --preview-window=right:65%:wrap)
+
+if [ -n "$selected_story" ]; then
+  short story --quiet "$selected_story"
+fi
