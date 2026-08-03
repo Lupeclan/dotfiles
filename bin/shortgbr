@@ -3,6 +3,9 @@ set -e
 set -u
 set -o pipefail
 
+
+git rev-parse --is-inside-work-tree
+
 selected_story=$(echo "" | fzf \
   --bind "change:reload( short search --owner $SHORTCUT_MENTION_NAME --text {q} --format '%id %t' --quiet )" \
   --height 40% \
