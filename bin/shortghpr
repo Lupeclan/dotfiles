@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+set -e
+set -u
+set -o pipefail
+
+
+if [ ! "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]; then
+  echo "Not inside a git repository."
+  exit 1
+fi
+
+repo_root=$(git rev-parse --show-toplevel)
+repo_dir_name=$(basename "$repo_root")
+shortcut_dir="$HOME/.shortcut/$repo_dir_name"
+mkdir -p "$shortcut_dir"
+sc_id=$(cat "$shortcut_dir/.shortcut_story_id" 2>/dev/null || echo "")
+selected_story=""
+story_format='%id	%t	%y	%u'
+
+if [ -n "$sc_id" ]; then
+  echo "Current Shortcut Story ID: $sc_id"
+  selected_story=$(short story --quiet "$sc_id" --format "$story_format")
+else
+  echo "No Shortcut Story ID found searching..."
+  selected_story=$(echo "" | fzf \
+    --bind "change:reload:sleep 0.25;( short search --owner $SHORTCUT_MENTION_NAME --text {q} --format '$story_format' --quiet )" \
+    --height 40% \
+    --layout=reverse \
+    --border \
+    --prompt="🩳 Search Shortcut Ticket ➔ " \
+    --preview "echo {} | cut -f1 | xargs -I% short story --quiet %" \
+    --preview-window=right:65%:wrap)
+fi
+
+if [ -n "$selected_story" ]; then
+  IFS=$'\t' read -r id title type url <<< "$selected_story"
+
+  current_branch=$(git branch --show-current)
+  if [ -z "$current_branch" ]; then
+    echo "Unable to determine current branch."
+    exit 1
+  fi
+
+  existing_pr_url=$(gh pr list \
+    --head "$current_branch" \
+    --state open \
+    --limit 1 \
+    --json url \
+    --jq '.[0].url // ""')
+
+  if [ -n "$existing_pr_url" ]; then
+    echo "An open PR already exists for branch '$current_branch': $existing_pr_url"
+    echo "Do you want to open it in your browser? (y/n)"
+    read -r answer
+    if [[ "$answer" =~ ^[Yy]$ ]]; then
+      gh pr view --web "$existing_pr_url"
+    fi
+
+    exit 0
+  fi
+
+  gh pr create \
+    --title "$type: [sc-$id] $title" \
+    --body "Story details: $url" \
+    --draft \
+    --label "do not merge yet" \
+    --dry-run
+
+  echo "Do you want to create the PR? (y/n)"
+  read -r answer
+  if [[ "$answer" =~ ^[Yy]$ ]]; then
+    gh pr create \
+      --title "$type: [sc-$id] $title" \
+      --body "Story details: $url" \
+      --draft \
+      --label "do not merge yet"
+
+    echo "Do you want to open it in your browser? (y/n)"
+    read -r answer
+    if [[ "$answer" =~ ^[Yy]$ ]]; then
+      gh pr view --web "$(gh pr list --head "$current_branch" --state open --limit 1 --json url --jq '.[0].url // ""')"
+    fi
+  else
+    echo "PR creation aborted."
+  fi
+fi

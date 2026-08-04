@@ -4,10 +4,13 @@ set -u
 set -o pipefail
 
 
-git rev-parse --is-inside-work-tree
+if [ ! "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]; then
+  echo "Not inside a git repository."
+  exit 1
+fi
 
 selected_story=$(echo "" | fzf \
-  --bind "change:reload( short search --owner $SHORTCUT_MENTION_NAME --text {q} --format '%id %t' --quiet )" \
+  --bind "change:reload:sleep 0.25;( short search --owner $SHORTCUT_MENTION_NAME --text {q} --format '%id %t' --quiet )" \
   --height 40% \
   --layout=reverse \
   --border \
@@ -22,8 +25,12 @@ if [ -n "$selected_story" ]; then
     | sed -E 's/^[[:space:]]+//; s/[[:space:]]+/-/g; s/[^[:alnum:]-]//g' \
     | tr '[:upper:]' '[:lower:]')
 
-  rm -f "$HOME/.shortcut_story_id"
-  echo "$id" > "$HOME/.shortcut_story_id"
+  repo_root=$(git rev-parse --show-toplevel)
+  repo_dir_name=$(basename "$repo_root")
+  shortcut_dir="$HOME/.shortcut/$repo_dir_name"
+  mkdir -p "$shortcut_dir"
+  rm -f "$shortcut_dir/.shortcut_story_id"
+  echo "$id" > "$shortcut_dir/.shortcut_story_id"
 
   branch_name="sc-$id-$title"
   if git show-ref --verify --quiet "refs/heads/$branch_name"; then
