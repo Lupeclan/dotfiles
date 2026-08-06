@@ -75,11 +75,7 @@ if [ -n "$selected_story" ]; then
       --draft \
       --label "do not merge yet"
 
-    echo "Do you want to open it in your browser? (y/n)"
-    read -r answer
-    if [[ "$answer" =~ ^[Yy]$ ]]; then
-      gh pr view --web "$(gh pr list --head "$current_branch" --state open --limit 1 --json url --jq '.[0].url // ""')"
-    fi
+    gh pr view --web "$(gh pr list --head "$current_branch" --state open --limit 1 --json url --jq '.[0].url // ""')"
   else
     echo "PR creation aborted."
   fi
