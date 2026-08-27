@@ -63,7 +63,6 @@ if [ -n "$selected_story" ]; then
     --title "$type: [sc-$id] $title" \
     --body "Story details: $url" \
     --draft \
-    --label "do not merge yet" \
     --dry-run
 
   echo "Do you want to create the PR? (y/n)"

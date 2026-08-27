@@ -23,6 +23,12 @@ alias gfep="git fetch --prune"
 alias gmm="git merge main"
 alias gchm="git checkout main"
 alias gsyn="git pull && git fetch --prune"
+alias glco="git rev-parse HEAD"
+
+grlco() {
+  git revert "$(git rev-parse HEAD)"
+}
+
 unalias gpf
 compdef g="git"
 
