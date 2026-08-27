@@ -71,8 +71,7 @@ if [ -n "$selected_story" ]; then
     gh pr create \
       --title "$type: [sc-$id] $title" \
       --body "Story details: $url" \
-      --draft \
-      --label "do not merge yet"
+      --draft
 
     gh pr view --web "$(gh pr list --head "$current_branch" --state open --limit 1 --json url --jq '.[0].url // ""')"
   else
