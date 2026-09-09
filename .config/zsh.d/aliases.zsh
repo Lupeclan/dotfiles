@@ -29,12 +29,38 @@ grlco() {
   git revert "$(git rev-parse HEAD)"
 }
 
+glcocp() {
+  git rev-parse HEAD | tr -d '\n' | copy
+}
+
 unalias gpf
 compdef g="git"
 
 # Misc
 alias reload="exec $SHELL -l"
 alias cls="clear"
+
+alert() {
+  shopt -s expand_aliases 2>/dev/null
+
+  if ! command -v osascript >/dev/null 2>&1; then
+      echo "Warning: osascript not found (not on macOS?), skipping notification" >&2
+      eval "$*"
+      return $?
+  fi
+
+  local now=$(date +%s)
+  eval "$*"
+  local exit_code=$?
+  local cmd_str=$(echo "$*" | sed 's/"/\\"/g')
+  if [ $exit_code -eq 0 ]; then
+      osascript -e "display notification \"Finished in $(( $(date +%s) - now )) seconds\" with title \"Finished running $cmd_str\""
+  else
+      osascript -e "display notification \"Failed in $(( $(date +%s) - now )) seconds\" with title \"Failed to run $cmd_str\""
+  fi
+
+  return $exit_code
+}
 
 # tofu
 alias tf="tofu"
