@@ -10,7 +10,8 @@ if [ ! "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]; then
 fi
 
 selected_story=$(echo "" | fzf \
-  --bind "change:reload:sleep 0.25;( short search --owner $SHORTCUT_MENTION_NAME --text {q} --format '%id %t' --quiet )" \
+  --bind "start:change:( short search --owner $SHORTCUT_MENTION_NAME --text {q} --format '%id %t' --quiet --state 'Ready for Development' --state 'In Progress' )" \
+  --query="${1:-}" \
   --height 40% \
   --layout=reverse \
   --border \
