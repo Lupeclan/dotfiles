@@ -9,8 +9,11 @@ if [ ! "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]; then
   exit 1
 fi
 
+short_cli_cmd="short search --owner $SHORTCUT_MENTION_NAME --text {q} --format '%id %t' --quiet --state 'Ready for Development' --state 'In Progress'"
+
 selected_story=$(echo "" | fzf \
-  --bind "start:change:( short search --owner $SHORTCUT_MENTION_NAME --text {q} --format '%id %t' --quiet --state 'Ready for Development' --state 'In Progress' )" \
+  --bind "start:reload:( $short_cli_cmd )" \
+  --bind "change:reload:( $short_cli_cmd )" \
   --query="${1:-}" \
   --height 40% \
   --layout=reverse \
