@@ -24,6 +24,7 @@ alias gmm="git merge main"
 alias gchm="git checkout main"
 alias gsyn="git pull && git fetch --prune"
 alias glco="git rev-parse HEAD"
+alias pcra="pre-commit run -a"
 
 grlco() {
   git revert "$(git rev-parse HEAD)"
