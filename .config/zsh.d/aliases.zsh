@@ -34,6 +34,8 @@ glcocp() {
   git rev-parse HEAD | tr -d '\n' | copy
 }
 
+alias ghpram="gh pr merge --auto --squash"
+
 unalias gpf
 compdef g="git"
 

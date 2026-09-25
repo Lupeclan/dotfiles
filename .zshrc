@@ -19,3 +19,17 @@ for f in $HOME/.config/*.d/.*rc; do source $f; done
 export PATH="$HOME/.pyenv/shims:$HOME/.cargo/bin:$PATH"
 # Source aliases that don't belong in dotfile repo
 source $HOME/.aliases
+
+# SWC dotfiles
+## Aliases
+swc_df_path="$HOME/gr/software-cloud-dotfiles"
+if [[ -d "$swc_df_path" && -d "$swc_df_path/aliases" ]]; then
+  for a in $(ls $swc_df_path/aliases/ | egrep -i "^.*\.(sh|zsh)$"); do
+    source "$swc_df_path/aliases/$a"
+  done
+fi
+
+## Bin
+if [[ -d "$swc_df_path" && -d "$swc_df_path/bin" ]]; then
+  export PATH="$swc_df_path/bin:$PATH"
+fi
